@@ -1,7 +1,6 @@
 # FBL Plugins: K8s Kubectl
 
-
-TODO
+Apply, delete K8s resources inside your [FBL](https://fbl.fireblink.com) flows.
 
 [![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl)
 [![Greenkeeper badge](https://badges.greenkeeper.io/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg)](https://greenkeeper.io/) 
@@ -9,7 +8,25 @@ TODO
 
 ## Purpose
 
-TODO
+## Purpose
+
+[fbl](https://fbl.fireblink.com) is a **flow** automation tool. That generally means it can automate any kind of routine processes and allows to create some really complex combinations of actions, even non related to deployment (probably, the main reason why you're currently reading this now).
+
+While cluster deployment is in some cases really simple and some PaaS providers already support cluster creation withing few commands / mouse clicks, service deployment into the cluster is not trivial like that.
+
+At FireBlink we generally treat entire cluster as a single product. As any other software product update of any of its dependencies may lead to unexpected behaviour. We never trust 3rd party vendors to have backward compatibility. So the only way we can be sure that all the services will work consistantly across environment is lock of the versions.
+
+As cluster is a product, it has it's own version, migration scripts, and set of helm/kubectl commands required to stand up / update the cluster.
+
+To help with that 2 main plugins for FBL has been created:
+- [@fbl-plugins/k8s-kubectl](https://github.com/FireBlinkLTD/fbl-plugins-k8s-kubectl) - allows to create/update/delete ConfigMaps, Secrets, CRDs, etc.
+- [@fbl-plugins/k8s-helm](https://github.com/FireBlinkLTD/fbl-plugins-k8s-helm) - install/update or delete of helm releases
+
+Generally both plugins are used together, as Secrets should be created outside the helm chart.
+
+Sensitive information can be hosted inside the Git repo and encrypted with [@fbl-plugins/crypto](https://github.com/FireBlinkLTD/fbl-plugins-crypto).
+
+Flexibility of the deployment is the key concept of FBL and plugins, as we never know what challenges we need to resolve the following day.
 
 ## Integration
 
@@ -60,5 +77,6 @@ pipeline:
 
 ## Action Handlers
 
-TODO
+* [kubectl apply](docs/Apply.md)
+* [kubectl delete](docs/Delete.md)
 
