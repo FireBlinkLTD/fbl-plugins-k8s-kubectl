@@ -18,6 +18,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
      */
     async execKubectlCommand(
         args: string[],
+        debug: boolean,
     ): Promise<{
         code: number;
         stdout: string;
@@ -28,6 +29,10 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         const stdout: string[] = [];
         const stderr: string[] = [];
 
+        if (debug) {
+            this.snapshot.log(`Running command "kubectl ${args.join(' ')}"`);
+        }
+
         const code = await childProcessService.exec('kubectl', args, this.snapshot.wd, {
             stdout: (chunk: any) => {
                 stdout.push(chunk.toString().trim());
@@ -36,6 +41,22 @@ export abstract class BaseActionProcessor extends ActionProcessor {
                 stderr.push(chunk.toString().trim());
             },
         });
+
+        if (code !== 0 || debug) {
+            this.snapshot.log('exit code: ' + code, true);
+
+            if (stdout) {
+                this.snapshot.log('stdout: ' + stdout, true);
+            }
+
+            if (stderr) {
+                this.snapshot.log('sterr: ' + stderr, true);
+            }
+        }
+
+        if (code !== 0) {
+            throw new Error(`"kubectl ${args.join(' ')}" command failed.`);
+        }
 
         return {
             code,
@@ -65,6 +86,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         if (values) {
             for (const value of values) {
                 let transformed = value;
+                /* istanbul ignore else */
                 if (transformer) {
                     transformed = await transformer(value);
                 }
@@ -113,7 +135,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         for (const match of matches) {
             let ext = extname(match);
             ext = ext && ext.toLowerCase();
-            if (ext === '.json' || ext === '.yml' || ext === '.yaml') {
+            if (['.json', '.yml', '.yaml'].indexOf(ext) >= 0) {
                 const filePath = join(dir, `${i++}_${basename(match)}`);
                 await this.processTemplateFile(match, filePath);
             }

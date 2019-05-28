@@ -12,3 +12,4 @@
 
 # docker specific files
 !./docker-run-tests.sh
+!./.dockerignore

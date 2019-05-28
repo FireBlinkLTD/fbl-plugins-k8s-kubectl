@@ -1,11 +1,11 @@
-node_modules/
-dist/
+/node_modules/
+/dist/
 
-yarn-error.log
+*.log
 
-.nyc_output/
-coverage/
-mochawesome-report/
+/.nyc_output/
+/coverage/
+/mochawesome-report/
 
 .idea/
 *.iml

@@ -71,23 +71,7 @@ export class DeleteActionProcessor extends BaseActionProcessor {
         this.snapshot.log(`Deleting release ${this.options.release}`);
 
         const args = await this.prepareCLIArgs();
-        const result = await this.execKubectlCommand(args);
-
-        if (result.code !== 0 || this.options.debug) {
-            this.snapshot.log('exit code: ' + result.code, true);
-
-            if (result.stdout) {
-                this.snapshot.log('stdout: ' + result.stdout, true);
-            }
-
-            if (result.stderr) {
-                this.snapshot.log('sterr: ' + result.stderr, true);
-            }
-        }
-
-        if (result.code !== 0) {
-            throw new Error(`"kubectl ${args.join(' ')}" command failed.`);
-        }
+        await this.execKubectlCommand(args, this.options.debug);
     }
 
     /**
