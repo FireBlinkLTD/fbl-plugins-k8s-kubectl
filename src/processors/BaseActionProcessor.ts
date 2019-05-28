@@ -45,10 +45,12 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         if (code !== 0 || debug) {
             this.snapshot.log('exit code: ' + code, true);
 
+            /* istanbul ignore else */
             if (stdout) {
                 this.snapshot.log('stdout: ' + stdout, true);
             }
 
+            /* istanbul ignore else */
             if (stderr) {
                 this.snapshot.log('sterr: ' + stderr, true);
             }
@@ -135,6 +137,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         for (const match of matches) {
             let ext = extname(match);
             ext = ext && ext.toLowerCase();
+            /* istanbul ignore else */
             if (['.json', '.yml', '.yaml'].indexOf(ext) >= 0) {
                 const filePath = join(dir, `${i++}_${basename(match)}`);
                 await this.processTemplateFile(match, filePath);
