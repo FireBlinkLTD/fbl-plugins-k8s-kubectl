@@ -68,9 +68,9 @@ After that you can use `yarn fbl <args>` to execute your flow or even register a
 
 ```yaml
 requires:
-  fbl: '>=1.7.0'
+  fbl: '>=1.8.0 <2.0.0'
   plugins:
-    '@fbl-plguins/k8s-kubectl': '>=1.0.0'
+    '@fbl-plguins/k8s-kubectl': '>=1.1.0'
 
 pipeline:
   # your flow goes here

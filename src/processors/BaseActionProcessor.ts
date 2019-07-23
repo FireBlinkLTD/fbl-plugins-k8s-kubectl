@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { createHash } from 'crypto';
 import * as glob from 'glob';
-import { extname, join, basename } from 'path';
+import { extname, join, basename, dirname } from 'path';
 
 const writeFileAsync = promisify(writeFile);
 
@@ -152,7 +152,8 @@ export abstract class BaseActionProcessor extends ActionProcessor {
     protected async processTemplateFile(sourcePath: string, targetPath: string): Promise<void> {
         const flowService = Container.get(FlowService);
 
-        let fileContent: string = await FSUtil.readTextFile(FSUtil.getAbsolutePath(sourcePath, this.snapshot.wd));
+        const absolutePath = FSUtil.getAbsolutePath(sourcePath, this.snapshot.wd);
+        let fileContent: string = await FSUtil.readTextFile(absolutePath);
 
         if (!fileContent) {
             throw new Error(`File is empty. ${sourcePath}`);
@@ -165,6 +166,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
             this.context,
             this.snapshot,
             this.parameters,
+            dirname(absolutePath),
         );
 
         let fileContentObject = safeLoad(fileContent);
