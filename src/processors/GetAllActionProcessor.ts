@@ -1,10 +1,10 @@
 import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
 import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
+import { TempPathsRegistry, FBL_ASSIGN_TO_SCHEMA, FBL_PUSH_TO_SCHEMA, ContextUtil } from 'fbl';
 import Container from 'typedi';
-import { TempPathsRegistry } from 'fbl';
 
-export class DeleteActionProcessor extends BaseActionProcessor {
+export class GetAllActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
         resources: Joi.array()
             .items(
@@ -37,23 +37,23 @@ export class DeleteActionProcessor extends BaseActionProcessor {
                 .min(1),
         ),
 
-        // Delete all resources, including uninitialized ones, in the namespace of the specified resource types.
-        all: Joi.boolean(),
+        // enable verbose output
+        debug: Joi.boolean(),
 
         // Namespace
         namespace: Joi.string(),
 
-        // enable verbose output
-        debug: Joi.boolean(),
-
         // extra arguments to append to the command
         // refer to `kubectl apply --help` for all available options
         extra: Joi.array().items(Joi.string()),
+
+        assignResourcesTo: FBL_ASSIGN_TO_SCHEMA,
+        pushResourcesTo: FBL_PUSH_TO_SCHEMA,
     })
         .with('names', 'resources')
         .without('paths', 'resources')
         .without('labels', 'names')
-        .or('names', 'paths', 'inline', 'labels', 'all')
+        .or('resources', 'names', 'paths', 'inline', 'labels')
         .required()
         .options({ abortEarly: true });
 
@@ -61,7 +61,7 @@ export class DeleteActionProcessor extends BaseActionProcessor {
      * @inheritdoc
      */
     getValidationSchema(): Joi.SchemaLike | null {
-        return DeleteActionProcessor.validationSchema;
+        return GetAllActionProcessor.validationSchema;
     }
 
     /**
@@ -69,14 +69,29 @@ export class DeleteActionProcessor extends BaseActionProcessor {
      */
     async execute(): Promise<void> {
         const args = await this.prepareCLIArgs();
-        await this.execKubectlCommand(args, this.options.debug);
+        const result = await this.execKubectlCommand(args, this.options.debug);
+        const response = JSON.parse(result.stdout);
+
+        let items;
+        if (response.kind !== 'List') {
+            items = [response];
+        } else {
+            items = response.items;
+        }
+
+        if (!items || !items.length) {
+            throw new Error('Unable to find any resources');
+        }
+
+        ContextUtil.assignTo(this.context, this.parameters, this.snapshot, this.options.assignResourcesTo, items);
+        ContextUtil.pushTo(this.context, this.parameters, this.snapshot, this.options.pushResourcesTo, items);
     }
 
     /**
      * Prepare CLI args
      */
     private async prepareCLIArgs(): Promise<string[]> {
-        const args: string[] = ['delete']; // TODO: handle case when kubectl requests confirmation for removal
+        const args: string[] = ['get'];
 
         this.pushWithValue(args, '-n', this.options.namespace);
 
@@ -118,7 +133,7 @@ export class DeleteActionProcessor extends BaseActionProcessor {
             },
         );
 
-        this.pushWithoutValue(args, '--all', this.options.all);
+        this.pushWithValue(args, '-o', 'json');
 
         return args;
     }
