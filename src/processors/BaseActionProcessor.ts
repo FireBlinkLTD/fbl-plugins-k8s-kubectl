@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { createHash } from 'crypto';
 import * as glob from 'glob';
-import { extname, join, basename, dirname } from 'path';
+import { extname, join, basename } from 'path';
 
 const writeFileAsync = promisify(writeFile);
 
@@ -166,7 +166,6 @@ export abstract class BaseActionProcessor extends ActionProcessor {
             this.context,
             this.snapshot,
             this.parameters,
-            dirname(absolutePath),
         );
 
         let fileContentObject = safeLoad(fileContent);
