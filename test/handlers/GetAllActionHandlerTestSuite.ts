@@ -34,7 +34,7 @@ class GetAllActionHandlerTestSuite {
     async failValidation(): Promise<void> {
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         await chai.expect(actionHandler.getProcessor([], context, snapshot, {}).validate()).to.be.rejected;
 
@@ -64,7 +64,7 @@ class GetAllActionHandlerTestSuite {
     async passValidation(): Promise<void> {
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         await actionHandler
             .getProcessor(
@@ -108,7 +108,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -147,7 +147,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -185,7 +185,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -244,7 +244,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -301,7 +301,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -366,7 +366,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -429,7 +429,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -476,7 +476,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -497,7 +497,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
@@ -514,7 +514,7 @@ class GetAllActionHandlerTestSuite {
 
         const actionHandler = new GetAllActionHandler();
         const context = ContextUtil.generateEmptyContext();
-        const snapshot = new ActionSnapshot('.', {}, '', 0, {});
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
 
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
