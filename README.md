@@ -81,4 +81,5 @@ pipeline:
 - [kubectl get](docs/GetOne.md) - single record
 - [kubectl get](docs/GetAll.md) - list of records
 - [kubectl apply](docs/Apply.md)
+- [kubectl apply docker secret](docs/secrets/ApplyDockerSecret.md)
 - [kubectl delete](docs/Delete.md)
