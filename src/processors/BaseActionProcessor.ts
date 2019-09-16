@@ -107,15 +107,31 @@ export abstract class BaseActionProcessor extends ActionProcessor {
     }
 
     /**
+     * Write string to temp file
+     * @returns temp file path
+     */
+    protected async writeStringToTempFile(data: string): Promise<string> {
+        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const filePath = await tempPathsRegistry.createTempFile(false, '.yaml');
+        await writeFileAsync(filePath, data, 'utf8');
+
+        return filePath;
+    }
+
+    /**
      * Write YAML to temp file
      * @returns temp file path
      */
     protected async writeYamlToTempFile(data: any): Promise<string> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
-        const filePath = await tempPathsRegistry.createTempFile(false, '.yaml');
-        await writeFileAsync(filePath, dump(data), 'utf8');
+        return await this.writeStringToTempFile(dump(data));
+    }
 
-        return filePath;
+    /**
+     * Write JSON to temp file
+     * @returns temp file path
+     */
+    protected async writeJsonToTempFile(data: any): Promise<string> {
+        return await this.writeStringToTempFile(JSON.stringify(data));
     }
 
     private getHash(path: string): string {

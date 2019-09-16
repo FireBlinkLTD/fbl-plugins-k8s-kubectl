@@ -1,5 +1,10 @@
 import { IPlugin } from 'fbl';
-import { ApplyActionHandler, DeleteActionHandler, GetAllActionHandler } from './src/handlers';
+import {
+    ApplyActionHandler,
+    DeleteActionHandler,
+    GetAllActionHandler,
+    ApplyDockerSecretActionHandler,
+} from './src/handlers';
 
 const packageJson = require('../package.json');
 
@@ -19,7 +24,12 @@ module.exports = <IPlugin>{
 
     reporters: [],
 
-    actionHandlers: [new ApplyActionHandler(), new DeleteActionHandler(), new GetAllActionHandler()],
+    actionHandlers: [
+        new ApplyActionHandler(),
+        new ApplyDockerSecretActionHandler(),
+        new DeleteActionHandler(),
+        new GetAllActionHandler(),
+    ],
 
     templateUtils: [],
 };

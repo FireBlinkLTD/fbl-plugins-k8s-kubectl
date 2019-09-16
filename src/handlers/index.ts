@@ -1,3 +1,5 @@
+export * from './secrets';
+
 export * from './ApplyActionHandler';
 export * from './DeleteActionHandler';
 export * from './GetAllActionHandler';
