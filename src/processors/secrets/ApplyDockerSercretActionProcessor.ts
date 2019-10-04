@@ -63,8 +63,6 @@ export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
      * @inheritdoc
      */
     async execute(): Promise<void> {
-        this.snapshot.log(`Deleting release ${this.options.release}`);
-
         const args = await this.prepareCLIArgs();
         await this.execKubectlCommand(args, this.options.debug);
     }
