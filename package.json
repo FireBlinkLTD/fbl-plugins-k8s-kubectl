@@ -36,7 +36,7 @@
     "@types/chai": "4.2.4",
     "@types/form-data": "2.5.0",
     "@types/glob": "7.1.1",
-    "@types/joi": "14.3.3",
+    "@types/joi": "14.3.4",
     "@types/js-yaml": "3.12.1",
     "@types/node": "12.12.4",
     "chai": "4.2.0",
