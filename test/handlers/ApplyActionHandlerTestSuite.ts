@@ -155,6 +155,67 @@ class ApplyActionHandlerTestSuite {
     }
 
     @test()
+    async applyMultipleConfigMapsFromSingleFile(): Promise<void> {
+        const configMap1 = {
+            apiVersion: 'v1',
+            kind: 'ConfigMap',
+            data: {
+                test: 'yes',
+            },
+            metadata: {
+                name: 'config.map.file1',
+                namespace: 'default',
+                labels: {
+                    app: 'test',
+                },
+            },
+        };
+
+        const configMap2 = {
+            apiVersion: 'v1',
+            kind: 'ConfigMap',
+            data: {
+                test: 'yes',
+            },
+            metadata: {
+                name: 'config.map.file2',
+                namespace: 'default',
+                labels: {
+                    app: 'test',
+                },
+            },
+        };
+
+        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
+
+        await writeFileAsync(filePath, ['---', dump(configMap1), '---', dump(configMap2)].join('\n'));
+
+        const options = {
+            paths: [filePath],
+            labels: {
+                app: 'test',
+            },
+        };
+
+        const actionHandler = new ApplyActionHandler();
+        const context = ContextUtil.generateEmptyContext();
+        const snapshot = new ActionSnapshot('index.yml', '.', {}, '', 0, {});
+
+        const processor = actionHandler.getProcessor(options, context, snapshot, {});
+
+        await processor.validate();
+        await processor.execute();
+
+        const api = new APIRequestProcessor();
+        const configMap1FromK8s = await api.get(`/api/v1/namespaces/default/configmaps/${configMap1.metadata.name}`);
+        assert.deepStrictEqual(configMap1FromK8s.data, configMap1.data);
+
+        const configMap2FromK8s = await api.get(`/api/v1/namespaces/default/configmaps/${configMap2.metadata.name}`);
+        assert.deepStrictEqual(configMap2FromK8s.data, configMap2.data);
+    }
+
+    @test()
     async applyConfigMapFromTemplate(): Promise<void> {
         const configMap = {
             apiVersion: 'v1',

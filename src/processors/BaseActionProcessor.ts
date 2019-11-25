@@ -1,6 +1,6 @@
 import { ActionProcessor, ChildProcessService, FSUtil, FlowService, TempPathsRegistry, ContextUtil } from 'fbl';
 import Container from 'typedi';
-import { safeLoad, dump } from 'js-yaml';
+import { safeLoadAll, dump } from 'js-yaml';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { createHash } from 'crypto';
@@ -184,21 +184,28 @@ export abstract class BaseActionProcessor extends ActionProcessor {
             this.parameters,
         );
 
-        let fileContentObject = safeLoad(fileContent);
+        const raw = safeLoadAll(fileContent);
+        const docs = [];
+        for (const doc of raw) {
+            // resolve local template
+            let fileContentObject = await flowService.resolveOptionsWithNoHandlerCheck(
+                this.context.ejsTemplateDelimiters.local,
+                doc,
+                this.context,
+                this.snapshot,
+                this.parameters,
+                false,
+            );
 
-        // resolve local template
-        fileContentObject = await flowService.resolveOptionsWithNoHandlerCheck(
-            this.context.ejsTemplateDelimiters.local,
-            fileContentObject,
-            this.context,
-            this.snapshot,
-            this.parameters,
-            false,
-        );
+            // resolve references
+            fileContentObject = ContextUtil.resolveReferences(fileContentObject, this.context, this.parameters);
+            docs.push(fileContentObject);
+        }
 
-        // resolve references
-        fileContentObject = ContextUtil.resolveReferences(fileContentObject, this.context, this.parameters);
-
-        await writeFileAsync(targetPath, dump(fileContentObject), 'utf8');
+        if (docs.length === 1) {
+            await writeFileAsync(targetPath, dump(docs[0]), 'utf8');
+        } else {
+            await writeFileAsync(targetPath, '---\n' + docs.map(d => dump(d)).join('\n---\n'), 'utf8');
+        }
     }
 }
