@@ -1,7 +1,6 @@
 import * as Joi from 'joi';
 import { BaseActionProcessor } from '../BaseActionProcessor';
-import { TempPathsRegistry, FSUtil } from 'fbl';
-import Container from 'typedi';
+import { FSUtil } from 'fbl';
 
 export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
