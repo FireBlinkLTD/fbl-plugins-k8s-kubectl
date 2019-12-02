@@ -77,11 +77,13 @@ export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
             const { username, password, email, server } = this.options.inline;
             dockerconfigjson = Buffer.from(
                 JSON.stringify({
-                    [server]: {
-                        username,
-                        password,
-                        email,
-                        auth: Buffer.from(`${username}:${password}`).toString('base64'),
+                    auths: {
+                        [server]: {
+                            username,
+                            password,
+                            email,
+                            auth: Buffer.from(`${username}:${password}`).toString('base64'),
+                        },
                     },
                 }),
             ).toString('base64');

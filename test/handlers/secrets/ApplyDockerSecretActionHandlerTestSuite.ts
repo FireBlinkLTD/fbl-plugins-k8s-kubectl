@@ -83,10 +83,10 @@ class ApplyDockerSecretActionHandlerTestSuite {
         const options = {
             name: 'test',
             inline: {
-                username: 'foo',
-                password: 'bar',
+                server: 'a',
+                username: 'b',
+                password: 'c',
                 email: 'foo@bar.com',
-                server: 'localhost',
             },
             extra: ['--wait=true'],
         };
@@ -103,19 +103,12 @@ class ApplyDockerSecretActionHandlerTestSuite {
         const api = new APIRequestProcessor();
         const secret = await api.get(`/api/v1/namespaces/default/secrets/${options.name}`);
 
-        assert.strict(
+        assert.strictEqual(
             secret.data['.dockerconfigjson'],
-            Buffer.from(
-                JSON.stringify({
-                    [options.inline.server]: {
-                        username: options.inline.username,
-                        password: options.inline.password,
-                        email: options.inline.email,
-                        auth: Buffer.from(`${options.inline.username}:${options.inline.password}`).toString('base64'),
-                    },
-                }),
-            ).toString('base64'),
+            'eyJhdXRocyI6eyJhIjp7InVzZXJuYW1lIjoiYiIsInBhc3N3b3JkIjoiYyIsImVtYWlsIjoiZm9vQGJhci5jb20iLCJhdXRoIjoiWWpwaiJ9fX0=',
         );
+
+        assert.strictEqual(secret.type, 'kubernetes.io/dockerconfigjson');
     }
 
     @test()
