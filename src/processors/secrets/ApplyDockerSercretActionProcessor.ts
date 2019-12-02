@@ -72,7 +72,7 @@ export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
     private async prepareCLIArgs(): Promise<string[]> {
         const args: string[] = ['apply'];
 
-        let dockerconfigjson;
+        let dockerconfigjson: string;
         if (this.options.inline) {
             const { username, password, email, server } = this.options.inline;
             dockerconfigjson = Buffer.from(
@@ -81,14 +81,14 @@ export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
                         username,
                         password,
                         email,
-                        auth: Buffer.from(`${username}:${password}`),
+                        auth: Buffer.from(`${username}:${password}`).toString('base64'),
                     },
                 }),
             ).toString('base64');
         } else {
             const path = FSUtil.getAbsolutePath(this.options.path, this.snapshot.wd);
-            dockerconfigjson = await FSUtil.readFile(path);
-            dockerconfigjson = dockerconfigjson.toString('base64');
+            const fileContents = await FSUtil.readFile(path);
+            dockerconfigjson = fileContents.toString('base64');
         }
 
         const secretFilePaht = await this.writeJsonToTempFile({

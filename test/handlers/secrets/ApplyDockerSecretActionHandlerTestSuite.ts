@@ -111,7 +111,7 @@ class ApplyDockerSecretActionHandlerTestSuite {
                         username: options.inline.username,
                         password: options.inline.password,
                         email: options.inline.email,
-                        auth: Buffer.from(`${options.inline.username}:${options.inline.password}`),
+                        auth: Buffer.from(`${options.inline.username}:${options.inline.password}`).toString('base64'),
                     },
                 }),
             ).toString('base64'),
