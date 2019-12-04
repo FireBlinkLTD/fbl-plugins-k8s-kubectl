@@ -1,6 +1,7 @@
 import { IPlugin } from 'fbl';
 import {
     ApplyActionHandler,
+    CreateActionHandler,
     DeleteActionHandler,
     GetAllActionHandler,
     ApplyDockerSecretActionHandler,
@@ -27,6 +28,7 @@ module.exports = <IPlugin>{
 
     actionHandlers: [
         new ApplyActionHandler(),
+        new CreateActionHandler(),
         new ApplyDockerSecretActionHandler(),
         new DeleteActionHandler(),
         new GetAllActionHandler(),
