@@ -1,6 +1,6 @@
 {
   "name": "@fbl-plugins/k8s-kubectl",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "FBL plugin for K8s Kubectl CLI",
   "main": "dist/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "@types/glob": "7.1.1",
     "@types/joi": "14.3.4",
     "@types/js-yaml": "3.12.1",
-    "@types/node": "13.1.7",
+    "@types/node": "13.1.8",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "commitizen": "4.0.3",
@@ -48,17 +48,17 @@
     "husky": "4.0.10",
     "jsonlint": "1.6.3",
     "lint-staged": "9.5.0",
-    "mocha": "6.2.2",
+    "mocha": "7.0.0",
     "mocha-typescript": "1.1.17",
     "mochawesome": "4.1.0",
-    "nyc": "14.1.1",
+    "nyc": "15.0.0",
     "prettier": "1.19.1",
     "rimraf": "3.0.0",
     "source-map-support": "0.5.16",
     "ts-node": "8.6.2",
     "tslint": "5.20.1",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.7.2",
+    "typescript": "3.7.5",
     "yarn-check": "0.0.3"
   },
   "nyc": {
