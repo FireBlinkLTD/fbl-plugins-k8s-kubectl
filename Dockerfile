@@ -1,4 +1,4 @@
-FROM fireblink/kind:latest
+FROM fireblink/kind:1.17.0
 
 # copy static files
 WORKDIR /usr/app
