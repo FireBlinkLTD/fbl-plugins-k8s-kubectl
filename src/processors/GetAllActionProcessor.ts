@@ -55,7 +55,7 @@ export class GetAllActionProcessor extends BaseActionProcessor {
         .without('labels', 'names')
         .or('resources', 'names', 'paths', 'inline', 'labels')
         .required()
-        .options({ abortEarly: true });
+        .options({ abortEarly: true, allowUnknown: false });
 
     /**
      * @inheritdoc

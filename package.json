@@ -1,6 +1,6 @@
 {
   "name": "@fbl-plugins/k8s-kubectl",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "FBL plugin for K8s Kubectl CLI",
   "main": "dist/index.js",
   "scripts": {
@@ -56,7 +56,7 @@
     "rimraf": "3.0.2",
     "source-map-support": "0.5.16",
     "ts-node": "8.6.2",
-    "tslint": "5.20.1",
+    "tslint": "6.0.0",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.7.5",
     "yarn-check": "0.0.3"

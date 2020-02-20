@@ -35,7 +35,7 @@ export class CreateActionProcessor extends BaseActionProcessor {
     })
         .or('paths', 'inline')
         .required()
-        .options({ abortEarly: true });
+        .options({ abortEarly: true, allowUnknown: false });
 
     /**
      * @inheritdoc

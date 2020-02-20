@@ -6,6 +6,7 @@ import {
     GetAllActionHandler,
     ApplyDockerSecretActionHandler,
     GetOneActionHandler,
+    WaitActionHandler,
 } from './src/handlers';
 
 const packageJson = require('../package.json');
@@ -33,6 +34,7 @@ module.exports = <IPlugin>{
         new DeleteActionHandler(),
         new GetAllActionHandler(),
         new GetOneActionHandler(),
+        new WaitActionHandler(),
     ],
 
     templateUtils: [],

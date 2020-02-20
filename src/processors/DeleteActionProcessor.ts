@@ -55,7 +55,7 @@ export class DeleteActionProcessor extends BaseActionProcessor {
         .without('labels', 'names')
         .or('names', 'paths', 'inline', 'labels', 'all')
         .required()
-        .options({ abortEarly: true });
+        .options({ abortEarly: true, allowUnknown: false });
 
     /**
      * @inheritdoc

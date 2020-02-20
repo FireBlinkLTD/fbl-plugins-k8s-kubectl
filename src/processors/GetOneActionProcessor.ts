@@ -42,7 +42,7 @@ export class GetOneActionProcessor extends BaseActionProcessor {
         .without('labels', 'name')
         .or('resource', 'name', 'path', 'inline', 'labels')
         .required()
-        .options({ abortEarly: true });
+        .options({ abortEarly: true, allowUnknown: false });
 
     /**
      * @inheritdoc

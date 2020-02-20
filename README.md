@@ -47,7 +47,7 @@ This is the most recommended way. Create `package.json` next to your flow file w
   },
   "license": "UNLICENSED",
   "dependencies": {
-    "@fbl-plguins/k8s-kubectl": "1.0.0",
+    "@fbl-plugins/k8s-kubectl": "1.0.0",
     "fbl": "1.7.0"
   }
 }
@@ -59,18 +59,18 @@ After that you can use `yarn fbl <args>` to execute your flow or even register a
 
 ### Global installation
 
-`npm i -g @fbl-plguins/k8s-kubectl`
+`npm i -g @fbl-plugins/k8s-kubectl`
 
 ### Register plugin to be accessible by fbl
 
-- via cli: `fbl -p @fbl-plguins/k8s-kubectl <args>`
+- via cli: `fbl -p @fbl-plugins/k8s-kubectl <args>`
 - via flow:
 
 ```yaml
 requires:
   fbl: '>=1.8.0 <2.0.0'
   plugins:
-    '@fbl-plguins/k8s-kubectl': '>=1.1.0'
+    '@fbl-plugins/k8s-kubectl': '>=1.1.0'
 
 pipeline:
   # your flow goes here
@@ -84,3 +84,4 @@ pipeline:
 - [kubectl create](docs/Create.md)
 - [kubectl apply docker secret](docs/secrets/ApplyDockerSecret.md)
 - [kubectl delete](docs/Delete.md)
+- [kubectl wait](docs/Wait.md)
