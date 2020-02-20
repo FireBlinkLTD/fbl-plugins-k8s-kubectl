@@ -11,9 +11,18 @@ export class WaitActionProcessor extends BaseActionProcessor {
             .min(1)
             .required(),
 
-        name: Joi.string()
-            .min(1)
-            .required(),
+        name: Joi.string().min(1),
+
+        labels: Joi.object().pattern(
+            Joi.string()
+                .min(1)
+                .required(),
+            Joi.string()
+                .required()
+                .min(1),
+        ),
+
+        all: Joi.boolean(),
 
         for: Joi.object({
             delete: Joi.boolean(),
@@ -35,6 +44,7 @@ export class WaitActionProcessor extends BaseActionProcessor {
         // refer to `kubectl wait --help` for all available options
         extra: Joi.array().items(Joi.string()),
     })
+        .xor('name', 'labels', 'all')
         .required()
         .options({ abortEarly: true, allowUnknown: false });
 
@@ -61,6 +71,7 @@ export class WaitActionProcessor extends BaseActionProcessor {
 
         this.pushWithValue(args, '--namespace', this.options.namespace);
         this.pushWithValue(args, '--timeout', this.options.timeout);
+        this.pushWithoutValue(args, '--all', this.options.all);
 
         if (this.options.extra) {
             args.push(...this.options.extra);
@@ -74,7 +85,18 @@ export class WaitActionProcessor extends BaseActionProcessor {
             args.push(`--for=condition=${this.options.for.condition}`);
         }
 
-        args.push(`${this.options.resource}/${this.options.name}`);
+        if (this.options.labels) {
+            for (const label of Object.keys(this.options.labels)) {
+                const value = this.options.labels[label];
+                args.push('-l', `${label}=${value}`);
+            }
+        }
+
+        args.push(this.options.resource);
+
+        if (this.options.name) {
+            args.push(this.options.name);
+        }
 
         return args;
     }

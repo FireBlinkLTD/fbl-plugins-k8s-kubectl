@@ -17,8 +17,18 @@ kubectl.wait:
   # [required] K8s resource type name
   resource: pod
 
-  # [required] Resource name
+  # [optional] Resource name
+  # Note: only one of "name", "labels" or "all" settings should be provided
   name: busybox1
+
+  # [optional] Labels for resource to match.
+  # Note: only one of "name", "labels" or "all" settings should be provided
+  labels:
+    app: awesome-api
+
+  # [optional] Whether to match all resources.
+  # Note: only one of "name", "labels" or "all" settings should be provided
+  all: true
 
   # [required] condition
   for:

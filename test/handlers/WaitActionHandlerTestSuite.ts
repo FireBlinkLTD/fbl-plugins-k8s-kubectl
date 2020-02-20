@@ -101,7 +101,9 @@ class WaitHandlerTestSuite {
         processor = await actionHandler.getProcessor(
             {
                 resource: 'pods',
-                name,
+                labels: {
+                    app: name,
+                },
                 for: {
                     delete: true,
                 },
