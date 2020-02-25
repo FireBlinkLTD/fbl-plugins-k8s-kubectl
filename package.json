@@ -1,6 +1,6 @@
 {
   "name": "@fbl-plugins/k8s-kubectl",
-  "version": "1.2.5",
+  "version": "1.2.4",
   "description": "FBL plugin for K8s Kubectl CLI",
   "main": "dist/index.js",
   "scripts": {
