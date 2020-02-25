@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
 import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
-import { TempPathsRegistry, FBL_ASSIGN_TO_SCHEMA, FBL_PUSH_TO_SCHEMA, ContextUtil } from 'fbl';
+import { TempPathsRegistry, FBL_ASSIGN_TO_SCHEMA, FBL_PUSH_TO_SCHEMA, ContextUtil, ActionError } from 'fbl';
 import Container from 'typedi';
 
 export class GetAllActionProcessor extends BaseActionProcessor {
@@ -69,7 +69,7 @@ export class GetAllActionProcessor extends BaseActionProcessor {
      */
     async execute(): Promise<void> {
         const args = await this.prepareCLIArgs();
-        const result = await this.execKubectlCommand(args, this.options.debug);
+        const result = await this.execKubectlCommand(args, this.options.debug, '');
         const response = JSON.parse(result.stdout);
 
         let items;
@@ -80,7 +80,8 @@ export class GetAllActionProcessor extends BaseActionProcessor {
         }
 
         if (!items || !items.length) {
-            throw new Error('Unable to find any resources');
+            items = [];
+            this.snapshot.log('Unable to find any resources', true);
         }
 
         ContextUtil.assignTo(this.context, this.parameters, this.snapshot, this.options.assignResourcesTo, items);

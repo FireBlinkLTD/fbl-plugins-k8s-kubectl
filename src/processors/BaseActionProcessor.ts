@@ -12,13 +12,12 @@ const writeFileAsync = promisify(writeFile);
 export abstract class BaseActionProcessor extends ActionProcessor {
     /**
      * Execute "helm" command
-     * @param {string[]} args
-     * @param {string} wd
      * @return {Promise<IExecOutput>}
      */
     async execKubectlCommand(
         args: string[],
         debug: boolean,
+        joinWith = '\n',
     ): Promise<{
         code: number;
         stdout: string;
@@ -62,8 +61,8 @@ export abstract class BaseActionProcessor extends ActionProcessor {
 
         return {
             code,
-            stdout: stdout.join('\n'),
-            stderr: stderr.join('\n'),
+            stdout: stdout.join(joinWith),
+            stderr: stderr.join(joinWith),
         };
     }
 

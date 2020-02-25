@@ -506,10 +506,11 @@ class GetAllActionHandlerTestSuite {
     }
 
     @test()
-    async failToGetOnEmptyResourceList(): Promise<void> {
+    async getEmptyListWhenNoResourcesFound(): Promise<void> {
         const options = {
             resources: ['ConfigMap'],
             debug: true,
+            assignResourcesTo: '$.ctx.configMaps',
         };
 
         const actionHandler = new GetAllActionHandler();
@@ -519,6 +520,8 @@ class GetAllActionHandlerTestSuite {
         const processor = actionHandler.getProcessor(options, context, snapshot, {});
 
         await processor.validate();
-        await chai.expect(processor.execute()).to.be.rejected;
+        await processor.execute();
+
+        assert.deepStrictEqual(context.ctx.configMaps, []);
     }
 }
