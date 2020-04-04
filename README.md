@@ -3,7 +3,7 @@
 Apply, delete K8s resources inside your [FBL](https://fbl.fireblink.com) flows.
 
 [![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl)
-[![Greenkeeper badge](https://badges.greenkeeper.io/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/FireBlinkLTD/fbl-plugins-k8s-kubectl/badge.svg)](https://snyk.io/test/github/FireBlinkLTD/fbl-plugins-k8s-kubectl)
 [![codecov](https://codecov.io/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl/branch/master/graph/badge.svg)](https://codecov.io/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FireBlinkLTD/fbl-plugins-k8s-kubectl/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FireBlinkLTD/fbl-plugins-k8s-kubectl/context:javascript)
