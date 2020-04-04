@@ -31,3 +31,6 @@ fi
 if [[ -n "$KIND_COPY_KUBECONFIG_TO" ]]; then
     cp $KUBECONFIG $KIND_COPY_KUBECONFIG_TO
 fi
+
+# fix for `error looking up service account default/default: serviceaccount "default" not found` error
+kubectl create sa default
