@@ -23,7 +23,7 @@
   "dependencies": {
     "glob": "7.1.6",
     "joi": "14.3.1",
-    "js-yaml": "3.13.1",
+    "js-yaml": "3.14.0",
     "typedi": "0.8.0"
   },
   "peerDependencies": {
