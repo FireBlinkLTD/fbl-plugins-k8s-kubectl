@@ -6,36 +6,15 @@ import Container from 'typedi';
 
 export class GetAllActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
-        resources: Joi.array()
-            .items(
-                Joi.string()
-                    .min(1)
-                    .required(),
-            )
-            .min(1),
+        resources: Joi.array().items(Joi.string().min(1).required()).min(1),
 
-        names: Joi.array().items(
-            Joi.string()
-                .min(1)
-                .required(),
-        ),
+        names: Joi.array().items(Joi.string().min(1).required()),
 
-        paths: Joi.array().items(
-            Joi.string()
-                .min(1)
-                .required(),
-        ),
+        paths: Joi.array().items(Joi.string().min(1).required()),
 
         inline: Joi.array().items(K8sObjectJoiValidationSchema),
 
-        labels: Joi.object().pattern(
-            Joi.string()
-                .min(1)
-                .required(),
-            Joi.string()
-                .required()
-                .min(1),
-        ),
+        labels: Joi.object().pattern(Joi.string().min(1).required(), Joi.string().required().min(1)),
 
         // enable verbose output
         debug: Joi.boolean(),
@@ -60,7 +39,7 @@ export class GetAllActionProcessor extends BaseActionProcessor {
     /**
      * @inheritdoc
      */
-    getValidationSchema(): Joi.SchemaLike | null {
+    getValidationSchema(): Joi.Schema | null {
         return GetAllActionProcessor.validationSchema;
     }
 

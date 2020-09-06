@@ -4,38 +4,21 @@ import { FSUtil } from 'fbl';
 
 export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
-        name: Joi.string()
-            .min(1)
-            .required(),
+        name: Joi.string().min(1).required(),
 
         path: Joi.string().min(1),
 
         inline: Joi.object({
-            username: Joi.string()
-                .required()
-                .min(1),
-            password: Joi.string()
-                .required()
-                .min(1),
-            email: Joi.string()
-                .required()
-                .min(1),
-            server: Joi.string()
-                .required()
-                .min(1),
+            username: Joi.string().required().min(1),
+            password: Joi.string().required().min(1),
+            email: Joi.string().required().min(1),
+            server: Joi.string().required().min(1),
         }).options({
             allowUnknown: false,
             abortEarly: true,
         }),
 
-        labels: Joi.object().pattern(
-            Joi.string()
-                .min(1)
-                .required(),
-            Joi.string()
-                .required()
-                .min(1),
-        ),
+        labels: Joi.object().pattern(Joi.string().min(1).required(), Joi.string().required().min(1)),
 
         // enable verbose output
         debug: Joi.boolean(),
@@ -54,7 +37,7 @@ export class ApplyDockerSecretActionProcessor extends BaseActionProcessor {
     /**
      * @inheritdoc
      */
-    getValidationSchema(): Joi.SchemaLike | null {
+    getValidationSchema(): Joi.Schema | null {
         return ApplyDockerSecretActionProcessor.validationSchema;
     }
 

@@ -7,20 +7,11 @@ import { join, basename } from 'path';
 
 export class WaitActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
-        resource: Joi.string()
-            .min(1)
-            .required(),
+        resource: Joi.string().min(1).required(),
 
         name: Joi.string().min(1),
 
-        labels: Joi.object().pattern(
-            Joi.string()
-                .min(1)
-                .required(),
-            Joi.string()
-                .required()
-                .min(1),
-        ),
+        labels: Joi.object().pattern(Joi.string().min(1).required(), Joi.string().required().min(1)),
 
         all: Joi.boolean(),
 
@@ -51,7 +42,7 @@ export class WaitActionProcessor extends BaseActionProcessor {
     /**
      * @inheritdoc
      */
-    getValidationSchema(): Joi.SchemaLike | null {
+    getValidationSchema(): Joi.Schema | null {
         return WaitActionProcessor.validationSchema;
     }
 

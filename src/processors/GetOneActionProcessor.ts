@@ -15,14 +15,7 @@ export class GetOneActionProcessor extends BaseActionProcessor {
 
         inline: K8sObjectJoiValidationSchema,
 
-        labels: Joi.object().pattern(
-            Joi.string()
-                .min(1)
-                .required(),
-            Joi.string()
-                .required()
-                .min(1),
-        ),
+        labels: Joi.object().pattern(Joi.string().min(1).required(), Joi.string().required().min(1)),
 
         // enable verbose output
         debug: Joi.boolean(),
@@ -47,7 +40,7 @@ export class GetOneActionProcessor extends BaseActionProcessor {
     /**
      * @inheritdoc
      */
-    getValidationSchema(): Joi.SchemaLike | null {
+    getValidationSchema(): Joi.Schema | null {
         return GetOneActionProcessor.validationSchema;
     }
 
