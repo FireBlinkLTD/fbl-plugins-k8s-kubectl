@@ -4,7 +4,6 @@ import * as assert from 'assert';
 import { APIRequestProcessor } from '@fireblink/k8s-api-client';
 
 import { ApplyActionHandler } from '../../src/handlers';
-import Container from 'typedi';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { dump } from 'js-yaml';
@@ -25,8 +24,7 @@ class ApplyActionHandlerTestSuite {
             await api.delete(`/api/v1/namespaces/default/configmaps/${configMap.metadata.name}`);
         }
 
-        Container.get(TempPathsRegistry).cleanup();
-        Container.reset();
+        TempPathsRegistry.instance.cleanup();
     }
 
     @test()
@@ -127,7 +125,7 @@ class ApplyActionHandlerTestSuite {
             },
         };
 
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
 
         await writeFileAsync(filePath, dump(configMap));
@@ -186,7 +184,7 @@ class ApplyActionHandlerTestSuite {
             },
         };
 
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
 
         await writeFileAsync(filePath, ['---', dump(configMap1), '---', dump(configMap2)].join('\n'));
@@ -232,7 +230,7 @@ class ApplyActionHandlerTestSuite {
             },
         };
 
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
 
         await writeFileAsync(filePath, dump(configMap));
@@ -283,7 +281,7 @@ class ApplyActionHandlerTestSuite {
             kind: 'ConfigMap',
         };
 
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
 
         await writeFileAsync(filePath, dump(configMap));
@@ -307,7 +305,7 @@ class ApplyActionHandlerTestSuite {
 
     @test()
     async failForEmptyFile(): Promise<void> {
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathRegistry.createTempFile(false, '.yaml');
 
         const options = {

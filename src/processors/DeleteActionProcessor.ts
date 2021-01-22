@@ -1,7 +1,6 @@
 import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
 import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
-import Container from 'typedi';
 import { TempPathsRegistry } from 'fbl';
 
 export class DeleteActionProcessor extends BaseActionProcessor {
@@ -79,7 +78,7 @@ export class DeleteActionProcessor extends BaseActionProcessor {
         }
 
         if (this.options.paths && this.options.paths.length) {
-            const tempPathsRegistry = Container.get(TempPathsRegistry);
+            const tempPathsRegistry = TempPathsRegistry.instance;
             const targetDir = await tempPathsRegistry.createTempDir();
             args.push('-R', '-f', targetDir);
 

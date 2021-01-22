@@ -1,9 +1,5 @@
 import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
-import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
-import { TempPathsRegistry, FBL_ASSIGN_TO_SCHEMA, FBL_PUSH_TO_SCHEMA, ContextUtil, FSUtil } from 'fbl';
-import Container from 'typedi';
-import { join, basename } from 'path';
 
 export class WaitActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({

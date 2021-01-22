@@ -4,10 +4,8 @@ import * as assert from 'assert';
 import { APIRequestProcessor } from '@fireblink/k8s-api-client';
 
 import { ApplyDockerSecretActionHandler } from '../../../src/handlers';
-import Container from 'typedi';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
-import { dump } from 'js-yaml';
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -25,8 +23,7 @@ class ApplyDockerSecretActionHandlerTestSuite {
             await api.delete(`/api/v1/namespaces/default/secrets/${secret.metadata.name}`);
         }
 
-        Container.get(TempPathsRegistry).cleanup();
-        Container.reset();
+        TempPathsRegistry.instance.cleanup();
     }
 
     @test()
@@ -114,7 +111,7 @@ class ApplyDockerSecretActionHandlerTestSuite {
     @test()
     async applySecretFromFile(): Promise<void> {
         const name = 'test';
-        const tempPathRegistry = Container.get(TempPathsRegistry);
+        const tempPathRegistry = TempPathsRegistry.instance;
         const path = await tempPathRegistry.createTempFile(false, '.yaml');
 
         await writeFileAsync(path, '{}');

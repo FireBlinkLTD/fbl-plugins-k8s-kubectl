@@ -2,7 +2,6 @@ import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
 import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
 import { TempPathsRegistry } from 'fbl';
-import Container from 'typedi';
 
 export class ApplyActionProcessor extends BaseActionProcessor {
     private static validationSchema = Joi.object({
@@ -50,7 +49,7 @@ export class ApplyActionProcessor extends BaseActionProcessor {
         this.pushWithValue(args, '-n', this.options.namespace);
 
         if (this.options.paths && this.options.paths.length) {
-            const tempPathsRegistry = Container.get(TempPathsRegistry);
+            const tempPathsRegistry = TempPathsRegistry.instance;
             const targetDir = await tempPathsRegistry.createTempDir();
             args.push('-R', '-f', targetDir);
 

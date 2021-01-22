@@ -1,6 +1,5 @@
 import { ActionProcessor, ChildProcessService, FSUtil, FlowService, TempPathsRegistry, ContextUtil } from 'fbl';
-import Container from 'typedi';
-import { safeLoadAll, dump } from 'js-yaml';
+import { loadAll, dump } from 'js-yaml';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { createHash } from 'crypto';
@@ -23,7 +22,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         stdout: string;
         stderr: string;
     }> {
-        const childProcessService = Container.get(ChildProcessService);
+        const childProcessService = ChildProcessService.instance;
 
         const stdout: string[] = [];
         const stderr: string[] = [];
@@ -110,7 +109,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
      * @returns temp file path
      */
     protected async writeStringToTempFile(data: string): Promise<string> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
         const filePath = await tempPathsRegistry.createTempFile(false, '.yaml');
         await writeFileAsync(filePath, data, 'utf8');
 
@@ -134,9 +133,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
     }
 
     private getHash(path: string): string {
-        return createHash('sha256')
-            .update(path, 'utf8')
-            .digest('hex');
+        return createHash('sha256').update(path, 'utf8').digest('hex');
     }
 
     /**
@@ -165,7 +162,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
     }
 
     protected async processTemplateFile(sourcePath: string, targetPath: string): Promise<void> {
-        const flowService = Container.get(FlowService);
+        const flowService = FlowService.instance;
 
         const absolutePath = FSUtil.getAbsolutePath(sourcePath, this.snapshot.wd);
         let fileContent: string = await FSUtil.readTextFile(absolutePath);
@@ -183,7 +180,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
             this.parameters,
         );
 
-        const raw = safeLoadAll(fileContent);
+        const raw = loadAll(fileContent);
         const docs = [];
         for (const doc of raw) {
             // resolve local template
@@ -204,7 +201,7 @@ export abstract class BaseActionProcessor extends ActionProcessor {
         if (docs.length === 1) {
             await writeFileAsync(targetPath, dump(docs[0]), 'utf8');
         } else {
-            await writeFileAsync(targetPath, '---\n' + docs.map(d => dump(d)).join('\n---\n'), 'utf8');
+            await writeFileAsync(targetPath, '---\n' + docs.map((d) => dump(d)).join('\n---\n'), 'utf8');
         }
     }
 }

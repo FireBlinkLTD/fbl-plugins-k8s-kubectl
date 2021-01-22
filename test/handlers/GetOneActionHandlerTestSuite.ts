@@ -4,7 +4,6 @@ import * as assert from 'assert';
 import { APIRequestProcessor } from '@fireblink/k8s-api-client';
 
 import { GetOneActionHandler } from '../../src/handlers';
-import Container from 'typedi';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { dump } from 'js-yaml';
@@ -25,8 +24,7 @@ class GetOneActionHandlerTestSuite {
             await api.delete(`/api/v1/namespaces/default/configmaps/${configMap.metadata.name}`);
         }
 
-        Container.get(TempPathsRegistry).cleanup();
-        Container.reset();
+        TempPathsRegistry.instance.cleanup();
     }
 
     @test()
@@ -218,7 +216,7 @@ class GetOneActionHandlerTestSuite {
 
     @test()
     async getConfigMapFromFile(): Promise<void> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
 
         const configMap1 = {
             apiVersion: 'v1',
@@ -263,7 +261,7 @@ class GetOneActionHandlerTestSuite {
 
     @test()
     async getConfigMapByTemplate(): Promise<void> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
 
         const configMap = {
             apiVersion: 'v1',

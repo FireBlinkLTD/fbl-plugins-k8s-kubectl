@@ -2,7 +2,6 @@ import * as Joi from 'joi';
 import { BaseActionProcessor } from './BaseActionProcessor';
 import { K8sObjectJoiValidationSchema } from '../joi/K8sObjectJoiValidationSchema';
 import { TempPathsRegistry, FBL_ASSIGN_TO_SCHEMA, FBL_PUSH_TO_SCHEMA, ContextUtil, FSUtil, ActionError } from 'fbl';
-import Container from 'typedi';
 import { join, basename } from 'path';
 
 export class GetOneActionProcessor extends BaseActionProcessor {
@@ -96,7 +95,7 @@ export class GetOneActionProcessor extends BaseActionProcessor {
         }
 
         if (this.options.path) {
-            const tempPathsRegistry = Container.get(TempPathsRegistry);
+            const tempPathsRegistry = TempPathsRegistry.instance;
             const targetDir = await tempPathsRegistry.createTempDir();
             args.push('-R', '-f', targetDir);
 

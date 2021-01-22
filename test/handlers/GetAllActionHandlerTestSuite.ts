@@ -4,7 +4,6 @@ import * as assert from 'assert';
 import { APIRequestProcessor } from '@fireblink/k8s-api-client';
 
 import { GetAllActionHandler } from '../../src/handlers';
-import Container from 'typedi';
 import { promisify } from 'util';
 import { writeFile } from 'fs';
 import { dump } from 'js-yaml';
@@ -26,8 +25,7 @@ class GetAllActionHandlerTestSuite {
             await api.delete(`/api/v1/namespaces/default/configmaps/${configMap.metadata.name}`);
         }
 
-        Container.get(TempPathsRegistry).cleanup();
-        Container.reset();
+        TempPathsRegistry.instance.cleanup();
     }
 
     @test()
@@ -315,7 +313,7 @@ class GetAllActionHandlerTestSuite {
 
     @test()
     async getMultipleConfigMapsFromFiles(): Promise<void> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
 
         const configMap1 = {
             apiVersion: 'v1',
@@ -380,7 +378,7 @@ class GetAllActionHandlerTestSuite {
 
     @test()
     async getMultipleConfigMapsFromFolder(): Promise<void> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
 
         const configMap1 = {
             apiVersion: 'v1',
@@ -443,7 +441,7 @@ class GetAllActionHandlerTestSuite {
 
     @test()
     async getConfigMapByTemplate(): Promise<void> {
-        const tempPathsRegistry = Container.get(TempPathsRegistry);
+        const tempPathsRegistry = TempPathsRegistry.instance;
 
         const configMap = {
             apiVersion: 'v1',
