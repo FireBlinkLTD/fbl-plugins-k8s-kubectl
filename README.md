@@ -2,7 +2,7 @@
 
 Apply, delete K8s resources inside your [FBL](https://fbl.fireblink.com) flows.
 
-[![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl)
+[![Tests](https://github.com/FireBlinkLTD/fbl-plugins-k8s-kubectl/workflows/Tests/badge.svg)](https://github.com/FireBlinkLTD/fbl-plugins-k8s-kubectl/actions?query=workflow%3ATests)
 [![Known Vulnerabilities](https://snyk.io/test/github/FireBlinkLTD/fbl-plugins-k8s-kubectl/badge.svg)](https://snyk.io/test/github/FireBlinkLTD/fbl-plugins-k8s-kubectl)
 [![codecov](https://codecov.io/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl/branch/master/graph/badge.svg)](https://codecov.io/gh/FireBlinkLTD/fbl-plugins-k8s-kubectl)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/FireBlinkLTD/fbl-plugins-k8s-kubectl.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FireBlinkLTD/fbl-plugins-k8s-kubectl/alerts/)
