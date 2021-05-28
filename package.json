@@ -20,7 +20,7 @@
   "author": "FireBlink LTD",
   "license": "MIT",
   "dependencies": {
-    "glob": "7.1.6",
+    "glob": "7.1.7",
     "joi": "17.3.0",
     "js-yaml": "4.0.0"
   },
